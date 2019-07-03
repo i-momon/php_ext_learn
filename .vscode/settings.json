@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "php.h": "c",
+        "fisrtclass.h": "c",
+        "php_fisrtest.h": "c",
+        "limits": "c",
+        "type_traits": "c",
+        "zend_api.h": "c",
+        "info.h": "c"
+    }
+}
