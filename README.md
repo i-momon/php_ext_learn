@@ -11,4 +11,5 @@
 * php 7.0.8 以上
 
 ## 测试用例
-> 请私
+> author : imomon
+> email : lai163zhaoban@163.com
