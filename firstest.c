@@ -557,7 +557,8 @@ const zend_function_entry firstest_functions[] = {
 	PHP_FE(call_php_function, NULL) // 调用php 函数
 	PHP_FE(define_var, NULL) // 变量定义
 	PHP_FE(golbal_var, NULL) // 获取全局变量
-	PHP_FE(uri_process, arginfo_uri)
+	PHP_FE(uri_process, arginfo_uri) // uri分成数组 组成
+	PHP_FE(url_parse_ext, NULL)
 	PHP_FE_END	/* Must be the last line in firstest_functions[] */
 };
 /* }}} */
