@@ -28,4 +28,5 @@ ltmain.sh
 missing
 mkinstalldirs
 modules/
+modules/*
 run-tests.php
