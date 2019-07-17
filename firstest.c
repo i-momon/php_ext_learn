@@ -26,12 +26,18 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "ext/standard/php_string.h"
+#include "ext/standard/url.h"
 
 #include "zend_API.h"
 #include "php_firstest.h"
 
+// 
 ZEND_BEGIN_ARG_INFO(arginfo_custom_ini_get, 0)
 	ZEND_ARG_INFO(0, arg)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO(arginfo_url_parse, 0)
+	ZEND_ARG_INFO(0, url)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO(arginfo_uri, 0)
@@ -89,6 +95,82 @@ PHP_FUNCTION(confirm_firstest_compiled)
    follow this convention for the convenience of others editing your code.
 */
 
+
+PHP_FUNCTION(first_url_parse)
+{
+    char *str;
+    size_t str_len;
+    zend_long key = -1;
+    php_url *resource;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s|l", &str, &str_len, &key) == FAILURE) {
+        return;
+    }
+
+    resource = php_url_parse_ex(str, str_len);
+    if (resource == NULL) {
+        RETURN_FALSE;
+    }
+	php_printf("scheme : %s\n", resource->scheme);
+
+    zval val;
+    HashTable *ht;
+    ht = emalloc(sizeof(HashTable));
+    zend_hash_init(ht, 3, NULL, ZVAL_PTR_DTOR, 0);
+
+    if (resource->scheme != NULL) {
+        char *scheme = "scheme";
+        ZVAL_STR(&val,zend_string_init(resource->scheme, strlen(resource->scheme), 1));
+        zend_hash_str_add_new(ht, scheme, strlen(scheme), &val);
+    }
+	
+    if (resource->host != NULL) {
+        char *host = "host";
+        ZVAL_STR(&val, zend_string_init(resource->host, strlen(resource->host), 1));
+        zend_hash_str_add_new(ht, host, strlen(host), &val);
+    }
+
+	
+    if (resource->port != 0) {
+        char *port = "port";
+		char p[5];
+		sprintf(p, "%d", resource->port);
+        ZVAL_STR(&val, zend_string_init(p, strlen(p), 1));
+        zend_hash_str_add_new(ht, port, strlen(port), &val);
+    }
+
+    if (resource->user != NULL) {
+        char *user = "user";
+        ZVAL_STR(&val, zend_string_init(resource->user, strlen(resource->user), 1));
+        zend_hash_str_add_new(ht, user, strlen(user), &val);
+    }
+
+    if (resource->pass != NULL) {
+        char *pass = "pass";
+        ZVAL_STR(&val, zend_string_init(resource->pass, strlen(resource->pass), 1));
+        zend_hash_str_add_new(ht, pass, strlen(pass), &val);
+    }
+
+    if (resource->path != NULL) {
+        char *path = "path";
+        ZVAL_STR(&val, zend_string_init(resource->path, strlen(resource->path), 1));
+        zend_hash_str_add_new(ht, path, strlen(path), &val);
+    }
+
+	if (resource->query != NULL) {
+		char *query = "query";
+		ZVAL_STR(&val, zend_string_init(resource->query, strlen(resource->query), 1));
+		zend_hash_str_add_new(ht, query, strlen(query), &val);
+	}
+
+	if (resource->fragment != NULL) {
+		char *fragment = "fragment";
+		ZVAL_STR(&val, zend_string_init(resource->fragment, strlen(resource->query), 1));
+		zend_hash_str_add_new(ht, fragment, strlen(fragment), &val);
+	}
+
+	RETURN_ARR(ht);
+}
 
 
 /**
@@ -498,6 +580,7 @@ PHP_MINIT_FUNCTION(firstest)
 }
 /* }}} */
 
+
 /* {{{ PHP_MSHUTDOWN_FUNCTION
  */
 PHP_MSHUTDOWN_FUNCTION(firstest)
@@ -558,7 +641,7 @@ const zend_function_entry firstest_functions[] = {
 	PHP_FE(define_var, NULL) // 变量定义
 	PHP_FE(golbal_var, NULL) // 获取全局变量
 	PHP_FE(uri_process, arginfo_uri) // uri分成数组 组成
-	PHP_FE(url_parse_ext, NULL)
+	PHP_FE(first_url_parse, arginfo_url_parse)
 	PHP_FE_END	/* Must be the last line in firstest_functions[] */
 };
 /* }}} */

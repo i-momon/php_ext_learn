@@ -6,6 +6,11 @@
         "limits": "c",
         "type_traits": "c",
         "zend_api.h": "c",
-        "info.h": "c"
+        "info.h": "c",
+        "firsturl.h": "c",
+        "php_ini.h": "c",
+        "php_firstest.h": "c",
+        "php_string.h": "c",
+        "url.h": "c"
     }
 }

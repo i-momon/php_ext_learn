@@ -30,3 +30,5 @@ mkinstalldirs
 modules/
 modules/*
 run-tests.php
+.vscode/*
+*.lo

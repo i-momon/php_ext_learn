@@ -21,6 +21,7 @@
 #ifndef PHP_FIRSTEST_H
 #define PHP_FIRSTEST_H
 
+
 extern zend_module_entry firstest_module_entry;
 #define phpext_firstest_ptr &firstest_module_entry
 
