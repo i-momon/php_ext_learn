@@ -22,6 +22,9 @@
 #define PHP_FIRSTEST_H
 
 
+#define HUBBLE_MAKE_STD_ZVAL(p) zval _##p; p = &(_##p); ZVAL_NULL(p)
+
+
 extern zend_module_entry firstest_module_entry;
 #define phpext_firstest_ptr &firstest_module_entry
 
@@ -96,6 +99,20 @@ static zend_class_entry *array_example_ce_ptr;
 int array_example_init();
 PHP_METHOD(array_example, stringToArray);
 /* 数组实例 结束 */
+
+/* 获取全局变量 开始 */
+static zend_class_entry request_ce;
+static zend_class_entry *request_ce_ptr;
+PHP_METHOD(request, getQuery);
+PHP_METHOD(request, getPost);
+PHP_METHOD(request, getServer);
+PHP_METHOD(request, getRequest);
+void request_init();
+zval *request_server(uint type, char *name, uint len);
+zval *request_query(uint type, char *name, uint len);
+zval *request_request(uint type, char *name, uint len);
+
+/* 获取全局变量 结束*/
 
 /* Always refer to the globals in your function as FIRSTEST_G(variable).
    You are encouraged to rename these macros something shorter, see
