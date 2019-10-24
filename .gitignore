@@ -32,3 +32,5 @@ modules/*
 run-tests.php
 .vscode/*
 *.lo
+.vscode/settings.json
+*.loT

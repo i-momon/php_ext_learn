@@ -27,6 +27,7 @@
 #include "ext/standard/info.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/url.h"
+#include "ext/pcre/php_pcre.h"
 
 #include "zend_API.h"
 #include "php_firstest.h"
@@ -326,16 +327,54 @@ function test_call()
 //TODO
 /* 生成对象结束*/
 
-PHP_FUNCTION(first_url_parse_path)
+PHP_FUNCTION(regex_compiled_test)
 {
 	zval *servers, *server, *empty;
-    zend_long limit = -1;
-    zend_string *what = NULL;
-	int replace_count;
+    // zend_long limit = -1;
+    // zend_string *what = NULL;
+	// int replace_count;
 
     servers = &PG(http_globals)[TRACK_VARS_SERVER];
-    server = zend_hash_find(Z_ARRVAL_P(servers), zend_string_init("REQUEST_URI", strlen("REQUEST_URI"), 0));
-	php_printf("server : %s", )
+	zend_string *k = zend_string_init("SCRIPT_FILENAME", strlen("SCRIPT_FILENAME"), 0);
+	php_printf("servers …… \n");
+	php_printf("k : %s \n", ZSTR_VAL(k));
+    server = zend_hash_find(Z_ARRVAL_P(servers), k);
+	if (!server) {
+		RETURN_TRUE;
+	}
+	if (Z_TYPE_P(server) == IS_STRING) {
+		php_printf("server is string : %s \n", Z_STRVAL_P(server));
+	}
+	if (Z_TYPE_P(server) == IS_LONG) {
+		php_printf("int : %d", Z_STRVAL_P(server));
+	}
+	if (Z_TYPE_P(server) == IS_UNDEF) {
+		php_printf("server undef \n");
+	}
+
+	//字符串正则替换
+	zend_long limit = -1;
+	zend_string *result;
+	char *subject = "/8634:tests/firsturl_parse_path.php";
+	char *re = "![0-9\\.]{4,}$!";
+	
+	zend_string *subject_str = zend_string_init(subject, strlen(subject), 0);
+	zend_string *regex = zend_string_init(re, strlen(re), 0);
+
+	zval replace_val;
+	ZVAL_STR(&replace_val, zend_string_init("9999", strlen("9999"), 0));
+
+	pcre_cache_entry *pce;
+	/* Compile regex or get it from cache. */
+	if ((pce = pcre_get_compiled_regex_cache(regex)) == NULL) {
+		php_printf("regex compiled fail\n");
+		RETURN_FALSE;
+	} 
+
+	/* if subject is not an array */
+	if ((result = php_pcre_replace(regex, subject_str, subject, strlen(subject), &replace_val, -1, 0, 0)) != NULL) {
+		php_printf("success result = : %s \n", ZSTR_VAL(result));
+	}
     // if (!server) {
     //     HUBBLE_MAKE_STD_ZVAL(empty);
     //     RETURN_ZVAL(empty,0,1);
@@ -701,7 +740,7 @@ const zend_function_entry firstest_functions[] = {
 	PHP_FE(golbal_var, NULL) // 获取全局变量
 	PHP_FE(uri_process, arginfo_uri) // uri分成数组 组成
 	PHP_FE(first_url_parse, arginfo_url_parse)
-	PHP_FE(first_url_parse_path, NULL)
+	PHP_FE(regex_compiled_test, NULL) // 正则匹配测试
 	PHP_FE_END	/* Must be the last line in firstest_functions[] */
 };
 /* }}} */

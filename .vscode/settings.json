@@ -11,6 +11,10 @@
         "php_ini.h": "c",
         "php_firstest.h": "c",
         "php_string.h": "c",
-        "url.h": "c"
+        "url.h": "c",
+        "*.tcc": "c",
+        "string": "c",
+        "php_pcre.h": "c",
+        "functional": "c"
     }
 }

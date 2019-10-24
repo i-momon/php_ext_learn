@@ -22,7 +22,16 @@ echo "$str\n";
 echo "############# _REQUEST_URI parse test #############".PHP_EOL;
 
 $_SERVER['REQUEST_URI'] = "http://api.immomon.com:8639/v2/vchat/room/join?vid=1";
+print_r($_SERVER);
 
-$url = first_url_parse_path();
-
+$url = regex_compiled_test();
 echo $url.PHP_EOL;
+
+$uri = "/8634:tests/firsturl_parse_path.php";
+$uri = preg_replace('![0-9\\.]{4,}$!', '', $uri);
+
+$uri = regex_compiled_test()
+
+echo $uri.PHP_EOL;
+
+
