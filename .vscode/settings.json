@@ -15,6 +15,7 @@
         "*.tcc": "c",
         "string": "c",
         "php_pcre.h": "c",
-        "functional": "c"
+        "functional": "c",
+        "first_funcall.h": "c"
     }
 }

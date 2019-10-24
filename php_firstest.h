@@ -114,6 +114,9 @@ zval *request_request(uint type, char *name, uint len);
 
 /* 获取全局变量 结束*/
 
+
+PHP_FUNCTION(first_url_parse);
+
 /* Always refer to the globals in your function as FIRSTEST_G(variable).
    You are encouraged to rename these macros something shorter, see
    examples in any other php module directory.

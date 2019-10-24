@@ -552,6 +552,17 @@ PHP_FUNCTION(define_var)
 /* }}}
 */
 
+/* {{{ 调用php 函数
+*/
+PHP_FUNCTION(first_php_uname)
+{
+    char *mode = "n";
+    zend_string *ret;
+    ret = php_get_uname(*mode);
+    RETURN_STR(ret);
+}
+/* }}}
+*/
 
 /* {{{  PHP函数翻写 
 	uri = /a/b/c/d?id=1 
@@ -741,6 +752,7 @@ const zend_function_entry firstest_functions[] = {
 	PHP_FE(uri_process, arginfo_uri) // uri分成数组 组成
 	PHP_FE(first_url_parse, arginfo_url_parse)
 	PHP_FE(regex_compiled_test, NULL) // 正则匹配测试
+	PHP_FE(first_php_uname, NULL)
 	PHP_FE_END	/* Must be the last line in firstest_functions[] */
 };
 /* }}} */
