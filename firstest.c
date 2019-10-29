@@ -382,47 +382,6 @@ PHP_FUNCTION(regex_compiled_test)
 	// zend_string *tmp = php_trim(ZVAL_STR(server), (what ? ZSTR_VAL(what) : NULL), (what ? ZSTR_LEN(what) : 0), 3);
 	// php_printf("tmp : %s", ZSTR_VAL(tmp));
 
-
-	/* 
-    zval *ret;
-    replace_count = preg_replace_impl(ret, "![0-9\\.]{4,}$!", '', server, limit, 0, 0);
-    php_trim(ZVAL_STR(ret), (what ? ZSTR_VAL(what) : NULL), (what ? ZSTR_LEN(what) : 0), 3);
-
-    // 兼容Moa
-    zval data;
-    array_init(&data);
-
-    zend_string *delim_string = zend_string_init(":", strlen(":"), 1);
-    php_explode(delim_string, ZSTR_VAL(ret), &data, 100);
-    if (Z_ARR_P(&data) == IS_ARRAY && Z_ARR_P(&data)->nNumUsed == 0) {
-        add_index_null(&data, 0);
-        add_index_null(&data, 0);
-        return RETURN_ZVAL(&data, 1, 1);
-    }
-    zval *domain, *business, *action, *slice;
-    domain = zend_hash_index_find(Z_ARR_P(&data), 0);
-    business = zend_hash_index_find(Z_ARR_P(&data), 1);
-    
-    if (Z_ARR_P(&data)->nNumUsed <= 2) {
-        ZVAL_NEW_STR(action, zend_string_init("default", strlen("default"), 1));
-    } else {
-        slice = zend_hash_index_find(Z_ARR_P(&data), 3);
-        ZVAL_NEW_STR(action, zend_string_init("default", strlen("default"), 1));
-        // 这里需要再分解
-    }
-
-    if (!business) {
-        ZVAL_NEW_STR(business, zend_string_init("default", strlen("default"), 1));
-    }
-
-    HashTable *ht;
-    ht = emalloc(sizeof(HashTable));
-    zend_hash_init(ht, 3, NULL, ZVAL_PTR_DTOR, 0);
-    zend_hash_index_add_new(ht, 1, domain);
-    zend_hash_index_add_new(ht, 2, business);
-    zend_hash_index_add_new(ht, 3, action);
-    RETURN_ARR(ht);    
-	*/
 }
 
 /* 测试各种类型返回值实例 */
