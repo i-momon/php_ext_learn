@@ -358,15 +358,15 @@ PHP_FUNCTION(regex_compiled_test)
 
 	zend_string *result;
 	char *subject = "/8634:tests/firsturl_parse_path.php";
-	// char *re = "![0-9\\.]{4,}$!";
-	char *re = "![0-9]{4,}$!";
+	//char *re = "![0-9\\.]{4,}$!";
+	char *re = "/[0-9]{4,}/u";
 	
 	zend_string *subject_str = zend_string_init(subject, strlen(subject), 0);
 	zend_string *regex = zend_string_init(re, strlen(re), 0);
 
 	zval replace_val;
-	zend_string *val = zend_string_init("9999", strlen("9999"), 0);
-	ZVAL_STR(&replace_val, val);
+	//zend_string *val = zend_string_init("9999", strlen("9999"), 0);
+	ZVAL_STR(&replace_val, zend_string_init("9999", strlen("9999"), 0));
 
 	pcre_cache_entry *pce;
 	/* Compile regex or get it from cache. */
@@ -377,8 +377,15 @@ PHP_FUNCTION(regex_compiled_test)
 
 
 	/* if subject is not an array */
-	if ((result = php_pcre_replace(regex, subject_str, subject, strlen(subject), &replace_val, 0, limit, &replace_count)) != NULL) {
-		php_printf("success result = : %s, type = : %d,  val = : %s \n", ZSTR_VAL(result), Z_TYPE_P(&replace_val), ZSTR_VAL(&replace_val));
+	if ((result = php_pcre_replace(regex, subject_str, subject, strlen(subject), &replace_val, 0, limit, 0)) != NULL) {
+		// php_printf("success result = : %s, type = : %d,  val = : %s \n", ZSTR_VAL(result), Z_TYPE_P(&replace_val), Z_STRVAL(replace_val));
+		php_printf("regex           : %s\n", ZSTR_VAL(regex));
+		php_printf("subject_str     : %s\n", ZSTR_VAL(subject_str));
+		php_printf("subject		    : %s\n", subject);
+		php_printf("strlen(subject) : %d\n", strlen(subject));
+		php_printf("limit           : %d\n", limit);
+		php_printf("replace_count   : %d\n", replace_count);
+		php_printf("result          : %s\n", ZSTR_VAL(result));
 	}
     // if (!server) {
     //     HUBBLE_MAKE_STD_ZVAL(empty);
