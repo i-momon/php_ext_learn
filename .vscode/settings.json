@@ -16,6 +16,8 @@
         "string": "c",
         "php_pcre.h": "c",
         "functional": "c",
-        "first_funcall.h": "c"
+        "first_funcall.h": "c",
+        "algorithm": "c",
+        "hashtable": "c"
     }
 }

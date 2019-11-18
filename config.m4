@@ -62,3 +62,9 @@ if test "$PHP_FIRSTEST" != "no"; then
   dnl PHP_NEW_EXTENSION 的第一个参数是扩展的名称，第二个参数是资源文件，可以是多个资源文件以空格分开。第三个参数 $ext_shared 是由 PHP_ARG_ENABLE/WITH PHP_NEW_EXTENSION 设定的
   PHP_NEW_EXTENSION(firstest, firstest.c firstclass.c firstinterface.c firstobject.c array_example.c firstgolbal.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 fi
+if test -z "$PHP_DEBUG"; then
+        AC_ARG_ENABLE(debug,
+                [--enable-debg  compile with debugging system],
+                [PHP_DEBUG=$enableval], [PHP_DEBUG=no]
+        )
+fi
