@@ -35,6 +35,6 @@ echo "###############\n";
 
 $uri = regex_compiled_test();
 
-echo $uri.PHP_EOL;
+print_r($uri).PHP_EOL;
 
 

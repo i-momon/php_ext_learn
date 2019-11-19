@@ -364,7 +364,7 @@ PHP_FUNCTION(regex_compiled_test)
 	zend_string *regex = zend_string_init(re, strlen(re), 0);
 
 	zval replace_val;
-	ZVAL_STR(&replace_val, zend_string_init("9999", strlen("9999"), 0));
+	ZVAL_STR(&replace_val, zend_string_init("", strlen(""), 0));
 
 	pcre_cache_entry *pce;
 	/* Compile regex or get it from cache. */
@@ -386,11 +386,23 @@ PHP_FUNCTION(regex_compiled_test)
 		php_printf("result          : %s\n", ZSTR_VAL(result));
 	}
 
+	php_printf("\n############# 去掉多余的字符串 ##################\n");
 	// 去掉多余的字符串 /9999:tests/firsturl_parse_path.php 去掉 /
-	zend_string *what = zend_string_init("/", strlen("/"), 0);
+	zend_string *what = zend_string_init("/", strlen("/"), 0);  // 可以扩展数组处理
 	zend_string *tmp = php_trim(result, (what ? ZSTR_VAL(what) : NULL), (what ? ZSTR_LEN(what) : 0), 3);
 	php_printf("tmp : %s", ZSTR_VAL(tmp));
 
+	// 将字符串转成数组
+	php_printf("\n############# 将字符串转成数组 ##################\n");
+	zend_string *delim_string = zend_string_init("/", strlen("/"), 0);
+	zval data;
+	array_init(&data);
+	php_explode(delim_string, result, &data, 100);
+	php_printf("result array num : %d", (Z_ARR_P(&data))->nNumUsed);
+	// RETURN_ZVAL(&data, 1, 1);
+	
+
+	// 分段取值
 }
 
 /* 测试各种类型返回值实例 */
@@ -550,11 +562,8 @@ PHP_FUNCTION(uri_process)
 		array_init(&data);
 
 		zend_string *delim_string = zend_string_init(delim, strlen(delim), 1);
-
 		php_printf("delim_string : %s \n", ZSTR_VAL(delim_string));
-
 		php_explode(delim_string, uri, &data, 100);
-
 		php_printf("data nNumUsed:%d \n", (Z_ARR_P(&data))->nNumUsed);
 
 		//zend_string *service = zend_string_init("service", strlen("service"), 1);

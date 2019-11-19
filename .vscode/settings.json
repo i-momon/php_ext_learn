@@ -18,6 +18,7 @@
         "functional": "c",
         "first_funcall.h": "c",
         "algorithm": "c",
-        "hashtable": "c"
+        "hashtable": "c",
+        "array": "c"
     }
 }
