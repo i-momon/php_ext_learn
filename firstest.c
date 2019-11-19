@@ -331,7 +331,6 @@ PHP_FUNCTION(regex_compiled_test)
 {
 	zval *servers, *server, *empty;
     // zend_long limit = -1;
-    // zend_string *what = NULL;
 	// int replace_count;
 
     servers = &PG(http_globals)[TRACK_VARS_SERVER];
@@ -365,7 +364,6 @@ PHP_FUNCTION(regex_compiled_test)
 	zend_string *regex = zend_string_init(re, strlen(re), 0);
 
 	zval replace_val;
-	//zend_string *val = zend_string_init("9999", strlen("9999"), 0);
 	ZVAL_STR(&replace_val, zend_string_init("9999", strlen("9999"), 0));
 
 	pcre_cache_entry *pce;
@@ -387,12 +385,11 @@ PHP_FUNCTION(regex_compiled_test)
 		php_printf("replace_count   : %d\n", replace_count);
 		php_printf("result          : %s\n", ZSTR_VAL(result));
 	}
-    // if (!server) {
-    //     HUBBLE_MAKE_STD_ZVAL(empty);
-    //     RETURN_ZVAL(empty,0,1);
-    // }
-	// zend_string *tmp = php_trim(ZVAL_STR(server), (what ? ZSTR_VAL(what) : NULL), (what ? ZSTR_LEN(what) : 0), 3);
-	// php_printf("tmp : %s", ZSTR_VAL(tmp));
+
+	// 去掉多余的字符串 /9999:tests/firsturl_parse_path.php 去掉 /
+	zend_string *what = zend_string_init("/", strlen("/"), 0);
+	zend_string *tmp = php_trim(result, (what ? ZSTR_VAL(what) : NULL), (what ? ZSTR_LEN(what) : 0), 3);
+	php_printf("tmp : %s", ZSTR_VAL(tmp));
 
 }
 
