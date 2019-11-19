@@ -401,8 +401,19 @@ PHP_FUNCTION(regex_compiled_test)
 	php_printf("result array num : %d", (Z_ARR_P(&data))->nNumUsed);
 	// RETURN_ZVAL(&data, 1, 1);
 	
-
 	// 分段取值
+	/*
+	array (
+		[0] =>
+		[1] => :tests
+		[2] => firsturl_parse_path.php
+	)
+	*/
+	zval *domain = zend_hash_index_find(Z_ARR_P(&data), 0);
+	zval *business = zend_hash_index_find(Z_ARR_P(&data), 1);
+	php_printf("domain : %s \n", ZVAL_STR(domain));
+	php_printf("business : %s \n", ZVAL_STR(business));
+
 }
 
 /* 测试各种类型返回值实例 */
