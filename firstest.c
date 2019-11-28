@@ -29,6 +29,7 @@
 #include "ext/standard/url.h"
 #include "ext/pcre/php_pcre.h"
 
+
 #include "zend_API.h"
 #include "php_firstest.h"
 
@@ -398,7 +399,7 @@ PHP_FUNCTION(regex_compiled_test)
 	zval data;
 	array_init(&data);
 	php_explode(delim_string, result, &data, 100);
-	php_printf("result array num : %d", (Z_ARR_P(&data))->nNumUsed);
+	php_printf("result array num : %d\n", (Z_ARR_P(&data))->nNumUsed);
 	// RETURN_ZVAL(&data, 1, 1);
 	
 	// 分段取值
@@ -411,8 +412,8 @@ PHP_FUNCTION(regex_compiled_test)
 	*/
 	zval *domain = zend_hash_index_find(Z_ARR_P(&data), 0);
 	zval *business = zend_hash_index_find(Z_ARR_P(&data), 1);
-	php_printf("domain : %s \n", ZVAL_STR(domain));
-	php_printf("business : %s \n", ZVAL_STR(business));
+	php_printf("domain : %s \n", Z_STRVAL_P(domain));
+	php_printf("business : %s \n", Z_STRVAL_P(business));
 
 }
 
